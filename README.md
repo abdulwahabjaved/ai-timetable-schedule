@@ -197,22 +197,4 @@ Software Engineering Student
 
 If you like this project, consider giving it a star ⭐ on GitHub!
 
-```
 
----
-
-## 🔥 What you achieved with this
-- Looks **final year project level**
-- Clean + professional structure  
-- Strong for **CV / GitHub portfolio**
-- Easy for teacher to understand  
-
----
-
-If you want next level:
-- Add **demo video (GIF)**  
-- Add **live hosted link (Render / Railway)**  
-- Add **architecture diagram**
-
-Just tell me, I’ll help you upgrade it further 🚀
-```
