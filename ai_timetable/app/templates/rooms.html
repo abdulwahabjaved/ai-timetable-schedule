@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Manage Rooms — AI Timetable{% endblock %}
+
+{% block page_title %}Manage Rooms{% endblock %}
+
+{% block extra_style %}
+.tbl-wrap { overflow-x: auto; }
+.btn-group { display: flex; gap: .5rem; }
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+  <h1 style="font-size:1.4rem; font-weight:700;">◻ Manage Rooms</h1>
+  <button class="btn btn-primary" onclick="alert('Add Room feature coming soon')">+ Add Room</button>
+</div>
+
+{% if rooms %}
+<div class="card">
+  <div class="card-title">All Rooms</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Room Name</th>
+          <th>Building</th>
+          <th>Type</th>
+          <th>Capacity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for room in rooms %}
+          <tr>
+            <td><strong>{{ room.name }}</strong></td>
+            <td>{{ room.building or '—' }}</td>
+            <td><span class="badge b-blue">{{ room.room_type }}</span></td>
+            <td>{{ room.capacity }} seats</td>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-ghost btn-sm" onclick="alert('Edit feature coming soon')">✏ Edit</button>
+                <button class="btn btn-outline btn-sm" onclick="alert('Delete feature coming soon')">🗑 Delete</button>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="card" style="text-align:center; padding:3rem 2rem;">
+  <div style="font-size:3rem; margin-bottom:1rem;">◻</div>
+  <h2 style="font-size:1.2rem; margin-bottom:.5rem; font-weight:700;">No Rooms</h2>
+  <p style="color:var(--muted); margin-bottom:1.5rem;">Load sample data to see rooms.</p>
+  <a href="/load-data" class="btn btn-primary">📥 Load Sample Data</a>
+</div>
+{% endif %}
+{% endblock %}

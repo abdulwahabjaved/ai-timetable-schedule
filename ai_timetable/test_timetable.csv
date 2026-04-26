@@ -1,0 +1,6 @@
+course_code,course_name,teacher,room,building,day,start,end,program,batch,semester,section_type,section_number
+CMPC-5201,Programming Fundamentals,Naveed Ahmad,NAB CR224,Dept of Software Engineering,Monday,09:30,11:00,BS,2026-2030,1,Regular,1
+CMPC-5202,Object Oriented Programming,Dr. Afzal Badshah,NAB L-02,Dept of Software Engineering,Tuesday,10:00,11:30,BS,2026-2030,1,Regular,1
+CMPC-5203,Database Systems,Saud Bin Tahir,NAB CR225,Dept of Software Engineering,Wednesday,14:00,15:30,BS,2026-2030,2,Regular,1
+SECC-301,Web Engineering,Dr. Ahmad Mustafa,NAB CR226,Dept of Software Engineering,Thursday,09:00,10:30,BS,2023-2027,6,Regular,1
+SECC-302,Software Quality Engineering,Quasira Ramzan,ARB CR219,College of Pharmacy,Friday,11:00,12:30,BS,2023-2027,6,Self Support,1

@@ -1,0 +1,201 @@
+{
+  "total_conflicts": 21,
+  "room_conflicts": [
+    {
+      "day": "Saturday",
+      "room": "NAB CR-224",
+      "course1": "SECC-703",
+      "course2": "SEEC-705",
+      "time1": "10:00-13:00",
+      "time2": "10:00-13:00"
+    },
+    {
+      "day": "Monday",
+      "room": "NAB CR-232",
+      "course1": "CMPC-301",
+      "course2": "SECC-301",
+      "time1": "08:00-09:30",
+      "time2": "08:00-09:30"
+    },
+    {
+      "day": "Monday",
+      "room": "NAB CR-232",
+      "course1": "CMPC-5209",
+      "course2": "MATH-5101",
+      "time1": "14:00-15:00",
+      "time2": "14:00-15:30"
+    },
+    {
+      "day": "Tuesday",
+      "room": "NAB CR-233",
+      "course1": "SEEC-409",
+      "course2": "CMPC-302",
+      "time1": "14:00-15:30",
+      "time2": "14:00-15:30"
+    },
+    {
+      "day": "Tuesday",
+      "room": "NAB CR-234",
+      "course1": "SEDC-5101",
+      "course2": "MATH-5102",
+      "time1": "14:00-15:30",
+      "time2": "14:00-15:30"
+    },
+    {
+      "day": "Monday",
+      "room": "NAB CR-237",
+      "course1": "CMPC-5207",
+      "course2": "SEEC-419",
+      "time1": "14:00-15:30",
+      "time2": "14:00-15:30"
+    },
+    {
+      "day": "Thursday",
+      "room": "NAB CR-238",
+      "course1": "URCQ-5111",
+      "course2": "CMPC-5101",
+      "time1": "14:00-15:00",
+      "time2": "14:30-16:00"
+    },
+    {
+      "day": "Thursday",
+      "room": "NAB CR-239",
+      "course1": "CMPC-5209 (Mavra Abbas)",
+      "course2": "CMPC-5209 (Umme Aeman)",
+      "time1": "14:00-15:30",
+      "time2": "14:00-15:30"
+    },
+    {
+      "day": "Friday",
+      "room": "NAB CR-241",
+      "course1": "SECC-301",
+      "course2": "MATH-5101",
+      "time1": "12:30-14:00",
+      "time2": "12:30-14:00"
+    }
+  ],
+  "teacher_conflicts": [
+    {
+      "teacher": "Areeba Shahzad",
+      "day": "Wednesday",
+      "course1": "BUSB-201",
+      "room1": "NAB CR-233",
+      "course2": "BUSB-201",
+      "room2": "MAB L-03",
+      "time1": "11:00-12:30",
+      "time2": "11:00-12:30"
+    },
+    {
+      "teacher": "Iqra Mushtaq",
+      "day": "Wednesday",
+      "course1": "SEEC-301",
+      "room1": "NAB CR-238",
+      "course2": "SEDC-5201",
+      "room2": "NAB CR-239",
+      "time1": "14:00-15:30",
+      "time2": "14:00-15:30"
+    },
+    {
+      "teacher": "Iqra Mushtaq",
+      "day": "Wednesday",
+      "course1": "SEEC-301",
+      "room1": "NAB CR-238",
+      "course2": "CMPC-5207",
+      "room2": "MAB L-03",
+      "time1": "14:00-15:30",
+      "time2": "15:00-16:30"
+    },
+    {
+      "teacher": "Iqra Mushtaq",
+      "day": "Wednesday",
+      "course1": "SEDC-5201",
+      "room1": "NAB CR-239",
+      "course2": "CMPC-5207",
+      "room2": "MAB L-03",
+      "time1": "14:00-15:30",
+      "time2": "15:00-16:30"
+    },
+    {
+      "teacher": "Iqra Mushtaq",
+      "day": "Wednesday",
+      "course1": "SEDC-5201",
+      "room1": "NAB CR-239",
+      "course2": "CMPC-5207",
+      "room2": "MAB L-03",
+      "time1": "15:30-17:00",
+      "time2": "15:00-16:30"
+    },
+    {
+      "teacher": "Kashaf Hassan",
+      "day": "Tuesday",
+      "course1": "CMPC-5204",
+      "room1": "ARB CR-219",
+      "course2": "CMPC-5202",
+      "room2": "MAB L-03",
+      "time1": "13:00-14:00",
+      "time2": "12:00-13:30"
+    },
+    {
+      "teacher": "Mavra Abbas",
+      "day": "Monday",
+      "course1": "CMPC-5209",
+      "room1": "NAB CR-224",
+      "course2": "CMPC-5209",
+      "room2": "NAB CR-232",
+      "time1": "13:30-14:30",
+      "time2": "14:00-15:00"
+    },
+    {
+      "teacher": "Mavra Abbas",
+      "day": "Tuesday",
+      "course1": "CMPC-5209",
+      "room1": "ARB CR-221",
+      "course2": "CMPC-5209",
+      "room2": "ARB L-10",
+      "time1": "15:00-16:00",
+      "time2": "14:30-16:00"
+    },
+    {
+      "teacher": "Ms Hafiza Anila Sajid",
+      "day": "Tuesday",
+      "course1": "SEEC-409",
+      "room1": "NAB CR-233",
+      "course2": "SEEC-409",
+      "room2": "NAB CR-240",
+      "time1": "14:00-15:30",
+      "time2": "14:00-15:30"
+    },
+    {
+      "teacher": "Quasira Ramzan",
+      "day": "Tuesday",
+      "course1": "SECC-302",
+      "room1": "NAB CR-226",
+      "course2": "SESC-305",
+      "room2": "NAB CR-241",
+      "time1": "15:30-17:00",
+      "time2": "15:30-17:00"
+    },
+    {
+      "teacher": "Umme Aeman",
+      "day": "Monday",
+      "course1": "CMPC-5209",
+      "room1": "NAB CR-225",
+      "course2": "CMPC-5209",
+      "room2": "NAB CR-232",
+      "time1": "15:30-16:30",
+      "time2": "15:30-16:30"
+    },
+    {
+      "teacher": "Umme Aeman",
+      "day": "Monday",
+      "course1": "SEEC-301",
+      "room1": "NAB CR-226",
+      "course2": "CMPC-5209",
+      "room2": "NAB CR-235",
+      "time1": "13:30-15:00",
+      "time2": "14:00-15:00"
+    }
+  ],
+  "ignored_combined_classes": 12,
+  "notes": "114 conflicts reported by previous system were WRONG. It overcounted by treating combined classes as conflicts, counting section overloads, and multiplying duplicate pairs."
+}

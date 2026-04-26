@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Upload PDF — AI Timetable{% endblock %}
+
+{% block page_title %}Upload Timetable PDF{% endblock %}
+
+{% block extra_style %}
+.upload-box { border: 2px dashed var(--border); border-radius: 12px; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: all .2s; }
+.upload-box:hover { border-color: var(--accent); background: rgba(59, 130, 246, .04); }
+.upload-box.active { border-color: var(--accent); background: rgba(59, 130, 246, .1); }
+.upload-box input { display: none; }
+.progress-bar { width: 100%; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 1rem; display: none; }
+.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width .3s; }
+{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:2rem;">
+  <h1 style="font-size:1.4rem; font-weight:700; margin-bottom:.5rem;">↑ Upload Timetable</h1>
+  <p style="color:var(--muted);">Parse PDF or CSV files containing timetable data from the SE Department.</p>
+</div>
+
+<div class="card" style="max-width:600px;">
+  <div class="card-title">Upload New File</div>
+  
+  <!-- Standard form POST — ensures Flask redirects + flash messages work correctly -->
+  <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
+    <div class="upload-box" id="dropZone">
+      <div style="font-size:2.5rem; margin-bottom:1rem;">📄</div>
+      <strong style="font-size:1.1rem;">Drop PDF or CSV file here or click to browse</strong>
+      <p style="color:var(--muted); margin-top:.5rem; font-size:.9rem;">Supported: PDF and CSV files (max 10MB)</p>
+      <input type="file" id="fileInput" name="file" accept=".pdf,.csv" />
+    </div>
+
+    <div id="fileInfo" style="display:none; margin-top:1.5rem; padding:1rem; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); border-radius:8px;">
+      <div style="color:var(--green); font-weight:600; margin-bottom:.5rem;" id="fileName"></div>
+      <div style="color:var(--muted); font-size:.85rem;" id="fileSize"></div>
+    </div>
+
+    <button type="submit" id="submitBtn" class="btn btn-primary" style="width:100%; margin-top:1.5rem; justify-content:center; padding:.6rem; display:none;">
+      📤 Upload and Parse
+    </button>
+  </form>
+</div>
+
+<!-- Loading overlay — shown during form submission -->
+<div id="uploadOverlay" style="display:none; position:fixed; inset:0; background:rgba(7,11,18,.92); z-index:9999; justify-content:center; align-items:center; flex-direction:column; gap:1.5rem;">
+  <div style="font-size:3rem; animation: spin 1.2s linear infinite;">⏳</div>
+  <div style="font-family:var(--FH); font-size:1.2rem; font-weight:700;">Parsing Timetable...</div>
+  <div style="color:var(--muted); font-size:.85rem;">Clearing old data → Parsing file → Building database</div>
+  <div style="width:200px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; margin-top:.5rem;">
+    <div style="width:100%; height:100%; background:var(--accent); animation: progress 2.5s ease-in-out infinite;"></div>
+  </div>
+</div>
+
+<style>
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes progress { 0%{transform:translateX(-100%)} 50%{transform:translateX(0)} 100%{transform:translateX(100%)} }
+</style>
+
+<div class="card" style="margin-top:2rem;">
+  <div class="card-title">Supported Formats</div>
+  
+  <div style="margin-top:1.5rem;">
+    <div style="margin-bottom:1.5rem;">
+      <strong style="color:var(--accent2);">📄 PDF Format</strong>
+      <ul style="color:var(--muted); line-height:1.8; margin-top:.5rem; padding-left:1.5rem;">
+        <li>✓ Standard PDF timetables with course information</li>
+        <li>✓ Multiple pages supported</li>
+        <li>✓ SE Department timetable format</li>
+      </ul>
+    </div>
+    
+    <div style="margin-bottom:1.5rem;">
+      <strong style="color:var(--accent2);">📋 CSV Format</strong>
+      <ul style="color:var(--muted); line-height:1.8; margin-top:.5rem; padding-left:1.5rem;">
+        <li>✓ Required columns: day, start, end, room, course_code, course_name, teacher, program, batch, semester</li>
+        <li>✓ Optional columns: building, section_type, section_number</li>
+        <li>✓ Column headers are case-insensitive (spaces or underscores accepted)</li>
+        <li>✓ Easy to create in Excel or Google Sheets</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div style="margin-top:1.5rem; padding:1rem; background:rgba(59,130,246,.08); border-left:3px solid var(--accent); border-radius:6px;">
+    <strong style="color:var(--accent2); display:block; margin-bottom:.5rem;">Example CSV:</strong>
+    <code style="color:var(--muted); font-size:.75rem; display:block; word-break:break-all;">
+      course_code,course_name,teacher,room,building,day,start,end,program,batch,semester,section_type,section_number<br/>
+      CMPC-5201,Programming Fundamentals,Naveed Ahmad,NAB CR224,Dept of Software Engineering,Monday,09:30,11:00,BS,2026-2030,1,Regular,1
+    </code>
+  </div>
+</div>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const form = document.getElementById('uploadForm');
+const fileInfo = document.getElementById('fileInfo');
+const submitBtn = document.getElementById('submitBtn');
+const overlay = document.getElementById('uploadOverlay');
+
+dropZone.addEventListener('click', () => fileInput.click());
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+  dropZone.addEventListener(event, preventDefaults, false);
+});
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+['dragenter', 'dragover'].forEach(event => {
+  dropZone.addEventListener(event, () => dropZone.classList.add('active'));
+});
+
+['dragleave', 'drop'].forEach(event => {
+  dropZone.addEventListener(event, () => dropZone.classList.remove('active'));
+});
+
+dropZone.addEventListener('drop', (e) => {
+  const files = e.dataTransfer.files;
+  fileInput.files = files;
+  updateFileInfo(files);
+});
+
+fileInput.addEventListener('change', (e) => {
+  updateFileInfo(e.target.files);
+});
+
+function updateFileInfo(files) {
+  if (files.length > 0) {
+    const file = files[0];
+    const filename_lower = file.name.toLowerCase();
+    
+    if (!filename_lower.endsWith('.pdf') && !filename_lower.endsWith('.csv')) {
+      alert('Only PDF and CSV files are supported.');
+      fileInput.value = '';
+      fileInfo.style.display = 'none';
+      submitBtn.style.display = 'none';
+      return;
+    }
+    
+    const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+    if (sizeMB > 10) {
+      alert('File size exceeds 10MB limit.');
+      fileInput.value = '';
+      fileInfo.style.display = 'none';
+      submitBtn.style.display = 'none';
+      return;
+    }
+    
+    const fileType = filename_lower.endsWith('.pdf') ? '(PDF)' : '(CSV)';
+    document.getElementById('fileName').textContent = '✓ ' + file.name + ' ' + fileType;
+    document.getElementById('fileSize').textContent = sizeMB + ' MB';
+    fileInfo.style.display = 'block';
+    submitBtn.style.display = 'flex';
+  }
+}
+
+/* Standard form submit — show loading overlay, let browser handle redirect */
+form.addEventListener('submit', (e) => {
+  if (fileInput.files.length === 0) {
+    e.preventDefault();
+    alert('Please select a file first.');
+    return;
+  }
+  // Show loading overlay — form submits naturally via browser
+  overlay.style.display = 'flex';
+  submitBtn.disabled = true;
+  submitBtn.textContent = '⏳ Uploading...';
+});
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Analytics — AI Timetable{% endblock %}
+
+{% block page_title %}Analytics{% endblock %}
+
+{% block extra_style %}
+.chart-placeholder { background: var(--card2); border: 1px dashed var(--border); border-radius: 12px; padding: 3rem 2rem; text-align: center; color: var(--muted); }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+  <h1 style="font-size:1.4rem; font-weight:700;">◈ Analytics & Insights</h1>
+  <button class="btn btn-outline" onclick="alert('Export feature coming soon')">📊 Export Report</button>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-placeholder">
+    <div style="font-size:2rem; margin-bottom:1rem;">📈</div>
+    <strong>Assignments by Day</strong>
+    <p style="margin-top:.5rem; font-size:.85rem;">Chart coming soon</p>
+  </div>
+
+  <div class="chart-placeholder">
+    <div style="font-size:2rem; margin-bottom:1rem;">⏰</div>
+    <strong>Utilization by Hour</strong>
+    <p style="margin-top:.5rem; font-size:.85rem;">Chart coming soon</p>
+  </div>
+
+  <div class="chart-placeholder">
+    <div style="font-size:2rem; margin-bottom:1rem;">🏫</div>
+    <strong>Room Usage</strong>
+    <p style="margin-top:.5rem; font-size:.85rem;">Chart coming soon</p>
+  </div>
+
+  <div class="chart-placeholder">
+    <div style="font-size:2rem; margin-bottom:1rem;">👥</div>
+    <strong>Teacher Load</strong>
+    <p style="margin-top:.5rem; font-size:.85rem;">Chart coming soon</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">System Insights</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
+    <div>
+      <div style="font-size:1.5rem; font-weight:700; color:var(--accent2); margin-bottom:.5rem;">Analytics</div>
+      <p style="color:var(--muted); font-size:.9rem;">Advanced analytics features will be available soon. Load sample data and detect conflicts first.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

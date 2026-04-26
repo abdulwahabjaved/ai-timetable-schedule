@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Conflict Report — AI Timetable{% endblock %}
+
+{% block extra_style %}
+/* ── Summary bar ── */
+.summary-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.scard { border-radius: 12px; padding: 1.25rem; text-align: center; border: 1px solid transparent; cursor: pointer; transition: transform .15s; }
+.scard:hover { transform: translateY(-2px); }
+.scard .num { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.scard .lbl { font-size: .75rem; margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
+.scard.critical { background: rgba(231,76,60,.12); border-color: #e74c3c; color: #e74c3c; }
+.scard.high     { background: rgba(230,126,34,.1);  border-color: #e67e22; color: #e67e22; }
+.scard.medium   { background: rgba(241,196,15,.1);  border-color: #f1c40f; color: #f1c40f; }
+.scard.low      { background: rgba(52,152,219,.1);  border-color: #3498db; color: #3498db; }
+.scard.total    { background: var(--card); border-color: var(--border); color: var(--text); }
+
+/* ── Meta bar ── */
+.meta { display: flex; gap: 2rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.meta span { font-size: .875rem; color: var(--muted); }
+.meta strong { color: var(--text); }
+
+/* ── Filter tabs ── */
+.filter-tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.ftab { padding: .4rem .9rem; border-radius: 99px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: .8rem; cursor: pointer; transition: all .2s; }
+.ftab:hover, .ftab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ── Conflict cards ── */
+.conflict-list { display: flex; flex-direction: column; gap: .75rem; }
+.conflict-card { background: var(--card); border-radius: 10px; padding: 1rem 1.25rem; border-left: 4px solid transparent; transition: transform .15s; }
+.conflict-card:hover { transform: translateX(2px); }
+.conflict-card.CRITICAL { border-left-color: #e74c3c; }
+.conflict-card.HIGH     { border-left-color: #e67e22; }
+.conflict-card.MEDIUM   { border-left-color: #f1c40f; }
+.conflict-card.LOW      { border-left-color: #3498db; }
+.conflict-card .top { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; flex-wrap: wrap; }
+.conflict-card .badge-sev { font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+.badge-sev.CRITICAL { background: rgba(231,76,60,.2); color: #e74c3c; }
+.badge-sev.HIGH     { background: rgba(230,126,34,.2); color: #e67e22; }
+.badge-sev.MEDIUM   { background: rgba(241,196,15,.2); color: #f1c40f; }
+.badge-sev.LOW      { background: rgba(52,152,219,.2); color: #3498db; }
+.conflict-card .type { font-weight: 600; font-size: .9rem; }
+.conflict-card .desc { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+.conflict-card .meta-row { display: flex; gap: 1.5rem; margin-top: .5rem; flex-wrap: wrap; }
+.conflict-card .meta-row span { font-size: .78rem; color: var(--muted); }
+.conflict-card .meta-row span strong { color: var(--text); }
+
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+.empty-state .big { font-size: 3rem; margin-bottom: 1rem; }
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+  <h1 style="font-size:1.4rem; font-weight:700;">⚠ Conflict Detection Report</h1>
+  <div style="display:flex; gap:.75rem;">
+    <a href="/conflicts" class="btn btn-primary">🔄 Re-scan</a>
+    <a href="/api/conflicts" class="btn btn-outline">🔌 JSON</a>
+  </div>
+</div>
+
+<!-- Summary cards -->
+<div class="summary-bar">
+  <div class="scard total" onclick="filterBy('ALL')">
+    <div class="num">{{ total }}</div>
+    <div class="lbl">Total Conflicts</div>
+  </div>
+  <div class="scard critical" onclick="filterBy('CRITICAL')">
+    <div class="num">{{ counts.CRITICAL }}</div>
+    <div class="lbl">🔴 Critical</div>
+  </div>
+  <div class="scard high" onclick="filterBy('HIGH')">
+    <div class="num">{{ counts.HIGH }}</div>
+    <div class="lbl">🟠 High</div>
+  </div>
+  <div class="scard medium" onclick="filterBy('MEDIUM')">
+    <div class="num">{{ counts.MEDIUM }}</div>
+    <div class="lbl">🟡 Medium</div>
+  </div>
+  <div class="scard low" onclick="filterBy('LOW')">
+    <div class="num">{{ counts.LOW }}</div>
+    <div class="lbl">🔵 Low</div>
+  </div>
+</div>
+
+<!-- Meta info -->
+<div class="meta">
+  <span>📊 Scanned <strong>{{ total_assignments }}</strong> assignments</span>
+  <span>⏱ Scan time: <strong>{{ scan_time }} ms</strong></span>
+  <span>🏫 SE Department Timetable</span>
+</div>
+
+<!-- Filter tabs -->
+<div class="filter-tabs">
+  <button class="ftab active" onclick="filterBy('ALL', this)">All ({{ total }})</button>
+  <button class="ftab" onclick="filterBy('CRITICAL', this)">🔴 Critical ({{ counts.CRITICAL }})</button>
+  <button class="ftab" onclick="filterBy('HIGH', this)">🟠 High ({{ counts.HIGH }})</button>
+  <button class="ftab" onclick="filterBy('MEDIUM', this)">🟡 Medium ({{ counts.MEDIUM }})</button>
+  <button class="ftab" onclick="filterBy('LOW', this)">🔵 Low ({{ counts.LOW }})</button>
+</div>
+
+<!-- Conflict list -->
+{% if conflicts %}
+<div class="conflict-list" id="conflictList">
+  {% for c in conflicts %}
+  <div class="conflict-card {{ c.severity }}" data-severity="{{ c.severity }}">
+    <div class="top">
+      <span class="badge-sev {{ c.severity }}">{{ c.severity }}</span>
+      <span class="type">{{ c.severity_emoji }} {{ c.conflict_type }}</span>
+    </div>
+    <div class="desc">{{ c.description }}</div>
+    <div class="meta-row">
+      {% if c.day %}<span>📅 <strong>{{ c.day }}</strong></span>{% endif %}
+      {% if c.time_slot %}<span>⏰ <strong>{{ c.time_slot }}</strong></span>{% endif %}
+      {% if c.entity_name %}<span>🏷 <strong>{{ c.entity_name }}</strong></span>{% endif %}
+      <span>🔗 IDs: {{ c.affected_ids | join(', ') }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="big">✅</div>
+  <h2>No Conflicts Found!</h2>
+  <p>Your timetable looks clean. Well done.</p>
+</div>
+{% endif %}
+
+<script>
+function filterBy(severity, btn) {
+  // Update active tab
+  if (btn) {
+    document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  // Filter cards
+  document.querySelectorAll('.conflict-card').forEach(card => {
+    if (severity === 'ALL' || card.dataset.severity === severity) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+// Summary cards also filter
+document.querySelectorAll('.scard').forEach(sc => {
+  sc.addEventListener('click', () => {
+    const sev = sc.classList.contains('critical') ? 'CRITICAL'
+              : sc.classList.contains('high') ? 'HIGH'
+              : sc.classList.contains('medium') ? 'MEDIUM'
+              : sc.classList.contains('low') ? 'LOW' : 'ALL';
+    filterBy(sev, null);
+  });
+});
+</script>
+{% endblock %}

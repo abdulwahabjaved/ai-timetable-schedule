@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI Timetable{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block extra_style %}
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+.main-section { margin-top: 2rem; }
+.main-section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; font-family: var(--FH); letter-spacing: .02em; }
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+  <div>
+    <h1 style="font-size:1.5rem; font-weight:800; margin-bottom:.25rem;">Welcome to AI Timetable Manager</h1>
+    <p style="color:var(--muted); font-size:.9rem;">Software Engineering Department Scheduling System</p>
+  </div>
+  <a href="/upload" class="btn btn-primary">📤 Upload Timetable</a>
+</div>
+
+<!-- Statistics Cards -->
+<div class="dashboard-grid">
+  <div class="scard blue au d1">
+    <span class="ico">◉</span>
+    <div class="num">{{ stats.teachers }}</div>
+    <div class="lbl">Teachers</div>
+    <div class="glow"></div>
+  </div>
+
+  <div class="scard green au d2">
+    <span class="ico">◻</span>
+    <div class="num">{{ stats.rooms }}</div>
+    <div class="lbl">Rooms</div>
+    <div class="glow"></div>
+  </div>
+
+  <div class="scard purple au d3">
+    <span class="ico">📚</span>
+    <div class="num">{{ stats.courses }}</div>
+    <div class="lbl">Courses</div>
+    <div class="glow"></div>
+  </div>
+
+  <div class="scard orange au d4">
+    <span class="ico">👥</span>
+    <div class="num">{{ stats.sections }}</div>
+    <div class="lbl">Sections</div>
+    <div class="glow"></div>
+  </div>
+
+  <div class="scard cyan au d5">
+    <span class="ico">⬡</span>
+    <div class="num">{{ stats.assignments }}</div>
+    <div class="lbl">Assignments</div>
+    <div class="glow"></div>
+  </div>
+</div>
+
+<!-- Quick Access Section -->
+<div class="main-section">
+  <h2>⚡ Quick Access</h2>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:1rem;">
+    <a href="/conflicts" class="btn btn-primary" style="justify-content:center; padding:1rem;">⚠ Check Conflicts</a>
+    <a href="/timetable" class="btn btn-outline" style="justify-content:center; padding:1rem;">◫ View Timetable</a>
+    <a href="/teachers" class="btn btn-outline" style="justify-content:center; padding:1rem;">◉ Manage Teachers</a>
+    <a href="/rooms" class="btn btn-outline" style="justify-content:center; padding:1rem;">◻ Manage Rooms</a>
+  </div>
+</div>
+
+<!-- Info Section -->
+<div class="main-section">
+  <div class="card">
+    <div class="card-title">ℹ About This System</div>
+    <p style="color:var(--muted); line-height:1.6; font-size:.9rem;">
+      The AI Timetable Manager is an intelligent scheduling system for the Software Engineering Department. 
+      It automatically detects scheduling conflicts, optimizes resource allocation, and generates conflict-free timetables.
+      Start by loading sample data or uploading your own schedule data in PDF format.
+    </p>
+  </div>
+</div>
+
+<style>
+.scard .ico {
+  font-size: 1.75rem;
+  margin-bottom: .75rem;
+  display: block;
+}
+</style>
+{% endblock %}

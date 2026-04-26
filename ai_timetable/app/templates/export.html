@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Export Timetable — AI Timetable{% endblock %}
+
+{% block page_title %}Export Timetable{% endblock %}
+
+{% block extra_style %}
+.export-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.export-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all .2s; }
+.export-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.export-card .ico { font-size: 2rem; margin-bottom: 1rem; }
+.export-card .title { font-weight: 600; margin-bottom: .5rem; }
+.export-card .desc { color: var(--muted); font-size: .85rem; }
+{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:2rem;">
+  <h1 style="font-size:1.4rem; font-weight:700; margin-bottom:.5rem;">↓ Export Timetable</h1>
+  <p style="color:var(--muted);">Download timetable in various formats for sharing and analysis.</p>
+</div>
+
+<div class="export-options">
+  <div class="export-card" onclick="alert('PDF export coming soon')">
+    <div class="ico">📄</div>
+    <div class="title">PDF Report</div>
+    <div class="desc">Printable timetable with conflicts highlighted</div>
+  </div>
+
+  <div class="export-card" onclick="alert('Excel export coming soon')">
+    <div class="ico">📊</div>
+    <div class="title">Excel (XLSX)</div>
+    <div class="desc">Spreadsheet format with multiple sheets</div>
+  </div>
+
+  <div class="export-card" onclick="alert('CSV export coming soon')">
+    <div class="ico">📋</div>
+    <div class="title">CSV Data</div>
+    <div class="desc">Comma-separated values for analysis</div>
+  </div>
+
+  <div class="export-card" onclick="alert('JSON export coming soon')">
+    <div class="ico">⟨⟩</div>
+    <div class="title">JSON API</div>
+    <div class="desc">Structured data format for integration</div>
+  </div>
+</div>
+
+<div class="card" style="max-width:600px;">
+  <div class="card-title">Export Settings</div>
+  
+  <div style="margin-top:1.5rem;">
+    <label style="display:block; margin-bottom:1rem; color:var(--text); font-weight:500;">
+      <input type="checkbox" checked /> Include conflicts in export
+    </label>
+    
+    <label style="display:block; margin-bottom:1rem; color:var(--text); font-weight:500;">
+      <input type="checkbox" checked /> Include room assignments
+    </label>
+    
+    <label style="display:block; margin-bottom:1.5rem; color:var(--text); font-weight:500;">
+      <input type="checkbox" /> Include teacher workload summary
+    </label>
+
+    <button class="btn btn-primary" style="width:100%; justify-content:center; padding:.6rem;" onclick="alert('Export feature coming soon')">
+      ⬇ Download Timetable
+    </button>
+  </div>
+</div>
+
+<div class="card" style="margin-top:2rem;">
+  <div class="card-title">Recent Exports</div>
+  <div style="text-align:center; padding:2rem; color:var(--muted);">
+    <div style="font-size:1.5rem; margin-bottom:1rem;">📭</div>
+    No exports yet. Create your first export above.
+  </div>
+</div>
+{% endblock %}

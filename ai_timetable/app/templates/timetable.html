@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Timetable Grid — AI Timetable{% endblock %}
+
+{% block page_title %}Timetable Grid{% endblock %}
+
+{% block extra_style %}
+.timetable-container { overflow-x: auto; margin-bottom: 2rem; }
+.timetable { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.timetable th { 
+  background: var(--card2); 
+  border: 1px solid var(--border); 
+  padding: .8rem .6rem; 
+  text-align: center; 
+  font-weight: 600;
+  color: var(--accent2);
+  font-family: var(--FM);
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.timetable td { 
+  border: 1px solid var(--border); 
+  padding: 0;
+  vertical-align: top;
+  height: 100px;
+  position: relative;
+  background: var(--card);
+}
+.timetable .time-header { 
+  background: var(--card2);
+  font-weight: 600;
+  color: var(--accent2);
+  font-family: var(--FM);
+  font-size: .75rem;
+  text-align: center;
+  width: 90px;
+  max-width: 90px;
+}
+
+.slot-cell {
+  min-height: 100px;
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  background: var(--card);
+  position: relative;
+}
+
+.slot-cell.has-conflict { background: rgba(239, 68, 68, .06); border-left: 3px solid var(--red); }
+.slot-cell.empty { background: rgba(59, 130, 246, .02); }
+
+.assignment {
+  background: linear-gradient(135deg, rgba(59, 130, 246, .15), rgba(96, 165, 250, .08));
+  border: 1px solid rgba(59, 130, 246, .3);
+  border-radius: 6px;
+  padding: .4rem .5rem;
+  font-size: .7rem;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+.assignment:hover { 
+  background: linear-gradient(135deg, rgba(59, 130, 246, .25), rgba(96, 165, 250, .15));
+  border-color: rgba(59, 130, 246, .6);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, .15);
+}
+
+.assignment .course-code { 
+  font-family: var(--FM); 
+  font-weight: 700; 
+  color: var(--accent2); 
+  font-size: .72rem;
+}
+.assignment .teacher { 
+  color: var(--muted); 
+  font-size: .65rem;
+}
+.assignment .room { 
+  color: var(--text);
+  font-size: .68rem;
+  font-weight: 500;
+}
+
+.legend { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: .5rem; font-size: .85rem; }
+.legend-box { width: 20px; height: 20px; border-radius: 4px; }
+.legend-box.active { background: linear-gradient(135deg, rgba(59, 130, 246, .15), rgba(96, 165, 250, .08)); border: 1px solid rgba(59, 130, 246, .3); }
+.legend-box.conflict { background: rgba(239, 68, 68, .15); border: 1px solid rgba(239, 68, 68, .3); }
+.legend-box.empty { background: rgba(59, 130, 246, .02); border: 1px solid var(--border); }
+
+.stats-bar { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.stat-item { font-size: .9rem; }
+.stat-item strong { color: var(--accent2); }
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+  <h1 style="font-size:1.4rem; font-weight:700;">◫ Timetable Grid</h1>
+  <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+    <a href="/upload" class="btn btn-outline btn-sm">📤 Upload File</a>
+    <a href="/conflicts" class="btn btn-outline btn-sm">⚠ Check Conflicts</a>
+  </div>
+</div>
+
+{% if assignments %}
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-box active"></div>
+    <span>Class Scheduled</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-box conflict"></div>
+    <span>Has Conflict</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-box empty"></div>
+    <span>Empty Slot</span>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-item">📊 Total Assignments: <strong>{{ assignments|length }}</strong></div>
+  <div class="stat-item">📅 Days: <strong>{{ days|join(', ') }}</strong></div>
+</div>
+
+<!-- Timetable Grid -->
+<div class="timetable-container">
+  <table class="timetable">
+    <thead>
+      <tr>
+        <th style="width:90px;">Time</th>
+        {% for day in days %}
+          <th>{{ day }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% set time_slots = {} %}
+      
+      {# Extract unique time slots #}
+      {% for assignment in assignments %}
+        {% if assignment.timeslot %}
+          {% set key = assignment.timeslot.start_time ~ '-' ~ assignment.timeslot.end_time %}
+          {% if key not in time_slots %}
+            {% set _ = time_slots.update({key: {
+              'start': assignment.timeslot.start_time,
+              'end': assignment.timeslot.end_time,
+              'day_data': {}
+            }}) %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      {# Group assignments by day and time slot #}
+      {% for assignment in assignments %}
+        {% if assignment.timeslot %}
+          {% set key = assignment.timeslot.start_time ~ '-' ~ assignment.timeslot.end_time %}
+          {% set day_assignments = time_slots[key]['day_data'].setdefault(assignment.timeslot.day, []) %}
+          {% set _ = day_assignments.append(assignment) %}
+        {% endif %}
+      {% endfor %}
+
+      {# Render table rows for each time slot #}
+      {% for key in time_slots|sort %}
+        {% set slot = time_slots[key] %}
+        <tr>
+          <td class="time-header">{{ slot.start }}<br>{{ slot.end }}</td>
+          
+          {% for day in days %}
+            <td>
+              <div class="slot-cell {% if slot['day_data'].get(day) %}has-content{% else %}empty{% endif %}">
+                {% for assignment in slot['day_data'].get(day, []) %}
+                  <div class="assignment" title="{{assignment.course.name}} by {{assignment.teacher.name}} in {{assignment.room.name}}">
+                    <div class="course-code">{{ assignment.course.code }}</div>
+                    <div class="teacher">{{ assignment.teacher.name|truncate(20, True) }}</div>
+                    <div class="room">{{ assignment.room.name }}</div>
+                    {% if assignment.section %}
+                      <div class="teacher" style="font-size:.6rem; color:var(--dim);">{{ assignment.section.label|truncate(25, True) }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="card" style="text-align:center; padding:3rem 2rem;">
+  <div style="font-size:3rem; margin-bottom:1rem;">📭</div>
+  <h2 style="font-size:1.2rem; margin-bottom:.5rem; font-weight:700;">No Timetable Data</h2>
+  <p style="color:var(--muted); margin-bottom:1.5rem;">Upload a PDF or CSV timetable file to get started.</p>
+  <div style="display:flex; gap:.75rem; justify-content:center;">
+    <a href="/upload" class="btn btn-primary">📤 Upload Timetable</a>
+  </div>
+</div>
+{% endif %}
+
+<script>
+// Hover effects
+document.querySelectorAll('.assignment').forEach(el => {
+  el.addEventListener('mouseenter', function() {
+    this.style.transform = 'scale(1.05)';
+  });
+  el.addEventListener('mouseleave', function() {
+    this.style.transform = 'scale(1)';
+  });
+});
+</script>
+{% endblock %}

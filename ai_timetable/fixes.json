@@ -1,0 +1,132 @@
+{
+  "room_conflict_fixes": [
+    {
+      "id": "RC1",
+      "room": "NAB CR-224",
+      "day": "Saturday",
+      "fix": "Move SEEC-705 (Dr. Ramzan) from 10:00-13:00 to 13:00-16:00",
+      "reason": "SECC-703 and SEEC-705 both at 10:00-13:00. Slot 13:00-16:00 is free. SECC-701 starts at 16:00."
+    },
+    {
+      "id": "RC2",
+      "room": "NAB CR-232",
+      "day": "Monday",
+      "fix": "Move SECC-301 (Iqra Mushtaq) from 08:00-09:30 to 09:30-11:00",
+      "reason": "CMPC-301 and SECC-301 both at 08:00-09:30. Next slot 09:30-11:00 is free in CR-232."
+    },
+    {
+      "id": "RC3",
+      "room": "NAB CR-232",
+      "day": "Monday",
+      "fix": "Move MATH-5101 (M. Umer Iqbal) from 14:00-15:30 to 15:30-17:00",
+      "reason": "CMPC-5209 14:00-15:00 overlaps MATH-5101 14:00-15:30. Move MATH to 15:30-17:00."
+    },
+    {
+      "id": "RC4",
+      "room": "NAB CR-233",
+      "day": "Tuesday",
+      "fix": "Move CMPC-302 (Mehwish Samad) from 14:00-15:30 to 15:30-17:00",
+      "reason": "SEEC-409 and CMPC-302 both at 14:00-15:30. Shift CMPC-302 to next slot."
+    },
+    {
+      "id": "RC5",
+      "room": "NAB CR-234",
+      "day": "Tuesday",
+      "fix": "Move MATH-5102 (Ehsan) from 14:00-15:30 to 15:30-17:00",
+      "reason": "SEDC-5101 and MATH-5102 both at 14:00-15:30. Shift MATH to next slot."
+    },
+    {
+      "id": "RC6",
+      "room": "NAB CR-237",
+      "day": "Monday",
+      "fix": "Move SEEC-419 (Saima Aslam) from 14:00-15:30 to 15:30-17:00",
+      "reason": "CMPC-5207 and SEEC-419 both at 14:00-15:30. Shift SEEC-419."
+    },
+    {
+      "id": "RC7",
+      "room": "NAB CR-238",
+      "day": "Thursday",
+      "fix": "Move CMPC-5101 (Ms. Usma) from 14:30-16:00 to 16:00-17:30",
+      "reason": "URCQ-5111 14:00-15:00 overlaps CMPC-5101 14:30-16:00. Push CMPC-5101 later."
+    },
+    {
+      "id": "RC8",
+      "room": "NAB CR-239",
+      "day": "Thursday",
+      "fix": "Move CMPC-5209 Umme Aeman section from 14:00-15:30 to 15:30-17:00",
+      "reason": "Two different teachers' CMPC-5209 at same time. Separate them."
+    },
+    {
+      "id": "RC9",
+      "room": "NAB CR-241",
+      "day": "Friday",
+      "fix": "Move MATH-5101 (Ehsan) from 12:30-14:00 to 14:00-15:30",
+      "reason": "SECC-301 and MATH-5101 both at 12:30-14:00. Move MATH to next slot."
+    }
+  ],
+  "teacher_conflict_fixes": [
+    {
+      "id": "TC1",
+      "teacher": "Areeba Shahzad",
+      "day": "Wednesday",
+      "fix": "Move MAB L-03 BUSB-201 from 11:00-12:30 to 14:00-15:30 in MAB L-03",
+      "reason": "Same teacher in NAB CR-233 and MAB L-03 at 11:00-12:30."
+    },
+    {
+      "id": "TC2",
+      "teacher": "Iqra Mushtaq",
+      "day": "Wednesday",
+      "fix": "Move NAB CR-239 SEDC-5201 to 11:00-12:30. Keep NAB CR-238 SEEC-301 at 14:00. Keep MAB L-03 CMPC-5207 at 15:00.",
+      "reason": "3 overlapping classes. Spread them out."
+    },
+    {
+      "id": "TC3",
+      "teacher": "Kashaf Hassan",
+      "day": "Tuesday",
+      "fix": "Move MAB L-03 CMPC-5202 from 12:00-13:30 to 10:30-12:00",
+      "reason": "Overlaps with ARB CR-219 CMPC-5204 13:00-14:00."
+    },
+    {
+      "id": "TC4",
+      "teacher": "Mavra Abbas",
+      "day": "Monday",
+      "fix": "Move NAB CR-232 CMPC-5209 from 14:00-15:00 to 15:30-16:30",
+      "reason": "Overlaps with NAB CR-224 13:30-14:30."
+    },
+    {
+      "id": "TC5",
+      "teacher": "Mavra Abbas",
+      "day": "Tuesday",
+      "fix": "Move ARB CR-221 CMPC-5209 from 15:00-16:00 to 16:00-17:00",
+      "reason": "Overlaps with ARB L-10 14:30-16:00."
+    },
+    {
+      "id": "TC6",
+      "teacher": "Ms Hafiza Anila Sajid",
+      "day": "Tuesday",
+      "fix": "Move NAB CR-240 SEEC-409 from 14:00-15:30 to 15:30-17:00",
+      "reason": "Same teacher in NAB CR-233 and CR-240 at 14:00-15:30."
+    },
+    {
+      "id": "TC7",
+      "teacher": "Quasira Ramzan",
+      "day": "Tuesday",
+      "fix": "Move NAB CR-241 SESC-305 from 15:30-17:00 to 14:00-15:30",
+      "reason": "Same teacher in NAB CR-226 and CR-241 at 15:30-17:00."
+    },
+    {
+      "id": "TC8",
+      "teacher": "Umme Aeman",
+      "day": "Monday",
+      "fix": "Move NAB CR-232 CMPC-5209 from 15:30-16:30 to 16:30-17:30",
+      "reason": "Same teacher in NAB CR-225 and CR-232 at 15:30-16:30."
+    },
+    {
+      "id": "TC9",
+      "teacher": "Umme Aeman",
+      "day": "Monday",
+      "fix": "Move NAB CR-235 CMPC-5209 from 14:00-15:00 to 15:00-16:00",
+      "reason": "Overlaps with NAB CR-226 SEEC-301 13:30-15:00."
+    }
+  ]
+}
